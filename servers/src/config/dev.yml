@@ -1,0 +1,31 @@
+# 开发配置环境
+app:
+  prefix: '/api'
+  port: 8080
+  logger:
+  # 项目日志存储路径，相对路径（相对本项目根目录）或绝对路径
+    dir: '../logs'
+
+# 数据库配置
+db:
+  mysql:
+    host: 'mysql'
+    username: 'root'
+    password: '123456'
+    database: 'kapok'
+    port: 3306
+    charset: 'utf8mb4'
+    logger: 'advanced-console'
+    logging: true
+    multipleStatements: true
+    dropSchema: false
+    synchronize: true
+    supportBigNumbers: true
+    bigNumberStrings: true
+
+# redis 配置
+redis:
+  host: 'redis'
+  port: 6379
+  db: 0
+  keyPrefix: 'nest:'
