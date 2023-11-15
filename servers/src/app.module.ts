@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { ServeStaticModule, ServeStaticModuleOptions } from '@nestjs/serve-static'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
@@ -35,6 +36,21 @@ import configuration from './config/index'
                         },
                     },
                 ] as ServeStaticModuleOptions[]
+            },
+        }),
+        TypeOrmModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (config: ConfigService) => {
+                return {
+                    type: 'mysql',
+                    // 可能不再支持这种方式，entities 将改成接收 实体类的引用
+                    //
+                    // entities: [`${__dirname}/**/*.entity{.ts,.js}`],
+                    autoLoadEntities: true,
+                    keepConnectionAlive: true,
+                    ...config.get('db.mysql'),
+                } as TypeOrmModuleOptions
             },
         }),
     ],
