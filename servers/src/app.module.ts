@@ -7,6 +7,8 @@ import { AppService } from './app.service'
 import * as path from 'path'
 
 import configuration from './config/index'
+import { RedisClientOptions } from '@liaoliaots/nestjs-redis'
+import { RedisModule } from './common/libs/redis/redis.module'
 
 @Module({
     imports: [
@@ -53,6 +55,22 @@ import configuration from './config/index'
                 } as TypeOrmModuleOptions
             },
         }),
+        // libs redis
+        RedisModule.forRootAsync(
+            {
+                imports: [ConfigModule],
+                inject: [ConfigService],
+                useFactory: (config: ConfigService) => {
+                    return {
+                        closeClient: true,
+                        readyLog: true,
+                        errorLog: true,
+                        config: config.get<RedisClientOptions>('redis'),
+                    }
+                },
+            },
+            true,
+        ),
     ],
     controllers: [AppController],
     providers: [AppService],
