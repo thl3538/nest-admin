@@ -5,6 +5,8 @@ import { ConfigService } from '@nestjs/config'
 import express from 'express'
 import path from 'path'
 
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+
 import { logger } from './common/libs/log4js/logger.middleware'
 import { Logger } from './common/libs/log4js/log4j.util'
 import { TransformInterceptor } from './common/libs/log4js/transform.interceptor'
@@ -23,6 +25,22 @@ async function bootstrap() {
     // 设置 api 访问前缀
     const prefix = config.get<string>('app.prefix')
     app.setGlobalPrefix(prefix)
+
+    const swaggerOptions = new DocumentBuilder()
+        .setTitle('Nest-Admin App')
+        .setDescription('Nest-Admin App 接口文档')
+        .setVersion('2.0.0')
+        .addBearerAuth()
+        .build()
+    const document = SwaggerModule.createDocument(app, swaggerOptions)
+    // 项目依赖当前文档功能，最好不要改变当前地址
+    // 生产环境使用 nginx 可以将当前文档地址 屏蔽外部访问
+    SwaggerModule.setup(`${prefix}/docs`, app, document, {
+        swaggerOptions: {
+            persistAuthorization: true,
+        },
+        customSiteTitle: 'Nest-Admin API Docs',
+    })
 
     // 日志
     app.use(express.json())
@@ -52,6 +70,8 @@ async function bootstrap() {
         Chalk.green('服务地址'),
         `                http://localhost:${port}${prefix}/`,
         '\n',
+        Chalk.green('swagger 文档地址        '),
+        `http://localhost:${port}${prefix}/docs/`,
     )
 }
 bootstrap()
