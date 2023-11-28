@@ -29,3 +29,9 @@ redis:
   port: 6379
   db: 0
   keyPrefix: 'nest:'
+
+# jwt 配置
+jwt:
+  secretkey: 'vP9vcTQnDkhNZi8B6mvc5iiCQPSg4StL'
+  expiresin: '1h'
+  refreshExpiresIn: '2h'

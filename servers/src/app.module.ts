@@ -10,6 +10,8 @@ import configuration from './config/index'
 import { RedisClientOptions } from '@liaoliaots/nestjs-redis'
 import { RedisModule } from './common/libs/redis/redis.module'
 
+import { UserModule } from './system/user/user.module'
+
 @Module({
     imports: [
         // 配置模块
@@ -71,6 +73,7 @@ import { RedisModule } from './common/libs/redis/redis.module'
             },
             true,
         ),
+        UserModule,
     ],
     controllers: [AppController],
     providers: [AppService],

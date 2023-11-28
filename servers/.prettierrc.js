@@ -32,4 +32,6 @@ module.exports = {
   proseWrap: 'preserve',
   // 根据显示样式决定 html 要不要折行
   htmlWhitespaceSensitivity: 'css',
+  // 数组开头结尾加空格
+  bracketSpacing: true,
 }
