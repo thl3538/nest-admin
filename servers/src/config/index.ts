@@ -6,7 +6,7 @@ const configFileNameObj = {
     development: 'dev',
 }
 
-const env = process.env.NODE_ENV || 'development'
+const env = process.env.NODE_ENV
 
 export default () => {
     return yaml.load(

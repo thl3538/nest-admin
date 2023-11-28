@@ -2,14 +2,15 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { ServeStaticModule, ServeStaticModuleOptions } from '@nestjs/serve-static'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
+import { RedisClientOptions } from '@liaoliaots/nestjs-redis'
+
 import * as path from 'path'
 
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
 import configuration from './config/index'
-import { RedisClientOptions } from '@liaoliaots/nestjs-redis'
-import { RedisModule } from './common/libs/redis/redis.module'
 
+import { RedisModule } from './common/libs/redis/redis.module'
 import { UserModule } from './system/user/user.module'
 
 @Module({
