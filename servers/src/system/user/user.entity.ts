@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 import { ApiProperty } from '@nestjs/swagger'
 import { Exclude } from 'class-transformer'
 import { $enum } from 'ts-enum-util'
-import { StatusValue, UserType } from 'src/common/enum/common.enum'
+import { StatusValue, UserType } from 'src/common/enums/common.enum'
 
 @Entity('sys_user')
 export class UserEntity {

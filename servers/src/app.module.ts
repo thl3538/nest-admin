@@ -3,15 +3,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { ServeStaticModule, ServeStaticModuleOptions } from '@nestjs/serve-static'
 import { RedisClientOptions } from '@liaoliaots/nestjs-redis'
+import { APP_GUARD } from '@nestjs/core'
+import path from 'path'
 
-import * as path from 'path'
-
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
 import configuration from './config/index'
 
 import { RedisModule } from './common/libs/redis/redis.module'
+import { JwtAuthGuard } from './common/guards/auth.guard'
+
 import { UserModule } from './system/user/user.module'
+import { AuthModule } from './system/auth/auth.module'
 
 @Module({
     imports: [
@@ -74,9 +75,16 @@ import { UserModule } from './system/user/user.module'
             },
             true,
         ),
+        // 系统模块
         UserModule,
+        AuthModule,
     ],
-    controllers: [AppController],
-    providers: [AppService],
+    // 路由守卫
+    providers: [
+        {
+            provide: APP_GUARD,
+            useClass: JwtAuthGuard,
+        },
+    ],
 })
 export class AppModule {}
